@@ -27,7 +27,6 @@ export function usuarioParaEmailAlias(nomeUsuario) {
 export const MODULOS = [
   { id: 'pedidos', campo: 'acesso_pedidos', label: 'Pedidos Loja / WhatsApp', path: '/' },
   { id: 'producao', campo: 'acesso_producao', label: 'Produção (DTF e Sublimação)', path: '/impressoes' },
-  { id: 'separacao', campo: 'acesso_separacao', label: 'Separação', path: '/separacao' },
   { id: 'logistica', campo: 'acesso_logistica', label: 'Logística', path: '/logistica' },
   { id: 'administrativo', campo: 'acesso_administrativo', label: 'Administrativo / Executivo', path: '/admin' },
   { id: 'ecommerce', campo: 'acesso_ecommerce', label: 'Gestão Ecommerce', path: '/ecommerce' },
@@ -37,30 +36,30 @@ export const MODULOS = [
 // confirma o cadastro (via updateMe, na própria conta dela). Alterações posteriores
 // devem ser feitas na tela de Gestão de Usuários (módulo Administrativo).
 // Chave = nome de usuário normalizado (mesma função slugificarUsuario)
-const TUDO_EDICAO = { acesso_pedidos: 'edicao', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'edicao', acesso_ecommerce: 'edicao' };
+const TUDO_EDICAO = { acesso_pedidos: 'edicao', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'edicao', acesso_ecommerce: 'edicao' };
 
 export const PERFIS_INICIAIS = {
   marcio: TUDO_EDICAO,
   jeyse: TUDO_EDICAO,
   joceni: TUDO_EDICAO,
-  romualdo: { acesso_pedidos: 'leitura', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
-  alysson: { acesso_pedidos: 'nenhum', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
-  yan: { acesso_pedidos: 'edicao', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
-  raquel: { acesso_pedidos: 'nenhum', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
-  andre: { acesso_pedidos: 'nenhum', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
-  vitor: { acesso_pedidos: 'leitura', acesso_producao: 'edicao', acesso_separacao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  romualdo: { acesso_pedidos: 'leitura', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  alysson: { acesso_pedidos: 'nenhum', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  yan: { acesso_pedidos: 'edicao', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  raquel: { acesso_pedidos: 'nenhum', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  andre: { acesso_pedidos: 'nenhum', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  vitor: { acesso_pedidos: 'leitura', acesso_producao: 'edicao', acesso_logistica: 'edicao', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
   jo: { acesso_pedidos: 'nenhum', acesso_producao: 'nenhum', acesso_separacao: 'nenhum', acesso_logistica: 'nenhum', acesso_administrativo: 'edicao', acesso_ecommerce: 'edicao' },
   // Conta compartilhada e de baixo privilégio usada exclusivamente pelo Modo Visitante
   // (ver ModoVisitanteContext.jsx). Mesmo com esse perfil fixo em leitura, enquanto o
   // Modo Visitante está ativo a restrição global (nivelAcesso) já sobrepõe qualquer
   // permissão individual — isto aqui é só uma segunda camada de segurança (defesa em profundidade)
   // caso essa conta seja usada fora do Modo Visitante por engano.
-  visitante: { acesso_pedidos: 'leitura', acesso_producao: 'leitura', acesso_separacao: 'nenhum', acesso_logistica: 'nenhum', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
+  visitante: { acesso_pedidos: 'leitura', acesso_producao: 'leitura', acesso_logistica: 'nenhum', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' },
 };
 
 export function perfilInicialPara(nomeUsuario) {
   const slug = slugificarUsuario(nomeUsuario);
-  return PERFIS_INICIAIS[slug] || { acesso_pedidos: 'nenhum', acesso_producao: 'nenhum', acesso_separacao: 'nenhum', acesso_logistica: 'nenhum', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' };
+  return PERFIS_INICIAIS[slug] || { acesso_pedidos: 'nenhum', acesso_producao: 'nenhum', acesso_logistica: 'nenhum', acesso_administrativo: 'nenhum', acesso_ecommerce: 'nenhum' };
 }
 
 // Nível de acesso do usuário logado a um módulo: 'nenhum' | 'leitura' | 'edicao'

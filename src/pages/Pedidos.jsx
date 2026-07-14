@@ -164,10 +164,13 @@ export default function Pedidos() {
 
     if (newStatus === 'PRONTO' && p) setProntoModal(p);
     if (newStatus === 'ENTREGUE' && p) setEntregueModal(p);
+    // Removido auto-abertura de separação ao marcar como pago, agora segue o fluxo de Logística
+    /*
     if (newStatus === 'PAGO' && p && p.status !== 'PAGO') {
       setSeparacaoDoc({ ...p, status: 'PAGO' });
       setAutoPrintSeparacao(true);
     }
+    */
 
     const FINAIS = ['ENTREGUE', 'PRONTO', 'PAGO'];
     if (FINAIS.includes(newStatus) && p && !FINAIS.includes(p.status)) {

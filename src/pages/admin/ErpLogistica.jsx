@@ -15,11 +15,11 @@ import { usePodeEditar } from '@/lib/permissoes';
 import { registrarHistorico } from '@/lib/historico-pedido';
 
 const COLUMNS = [
-  { key: 'RECEBIDOS', label: 'Recebidos', color: 'bg-yellow-50 border-yellow-200', badge: 'bg-yellow-100 text-yellow-700', pedidoStatus: ['NOVO'], impressaoStatus: ['PENDENTE'] },
-  { key: 'EM_PRODUCAO', label: 'Em Produção', color: 'bg-indigo-50 border-indigo-200', badge: 'bg-indigo-100 text-indigo-700', pedidoStatus: ['PRODUCAO'], impressaoStatus: ['AGUARDANDO'] },
-  { key: 'EM_SEPARACAO', label: 'Em Separação', color: 'bg-cyan-50 border-cyan-200', badge: 'bg-cyan-100 text-cyan-700', pedidoStatus: ['SEPARACAO'], impressaoStatus: ['PAGO'] },
-  { key: 'PRONTO', label: 'Pronto p/ Retirada', color: 'bg-blue-50 border-blue-200', badge: 'bg-blue-100 text-blue-700', pedidoStatus: ['PRONTO', 'PAGO'], impressaoStatus: ['CONCLUIDO'] },
-  { key: 'FINALIZADOS', label: 'Entregues', color: 'bg-green-50 border-green-200', badge: 'bg-green-100 text-green-700', pedidoStatus: ['ENTREGUE', 'CANCELADO'], impressaoStatus: ['ENTREGUE', 'CANCELADO'] },
+  { key: 'RECEBIDOS', label: 'Recebidos', color: 'bg-yellow-50 border-yellow-200', badge: 'bg-yellow-100 text-yellow-700', pedidoStatus: ['NOVO', 'RECEBIDO'], impressaoStatus: ['PENDENTE', 'RECEBIDO'] },
+  { key: 'EM_PRODUCAO', label: 'Em Produção', color: 'bg-indigo-50 border-indigo-200', badge: 'bg-indigo-100 text-indigo-700', pedidoStatus: ['PRODUCAO', 'AGUARDANDO_PRODUCAO'], impressaoStatus: ['AGUARDANDO', 'EM_IMPRESSAO', 'ARTE_REVISADA'] },
+  { key: 'EM_SEPARACAO', label: 'Em Separação', color: 'bg-cyan-50 border-cyan-200', badge: 'bg-cyan-100 text-cyan-700', pedidoStatus: ['SEPARACAO', 'AGUARDANDO_SEPARACAO', 'EM_SEPARACAO'], impressaoStatus: ['PAGO'] },
+  { key: 'PRONTO', label: 'Pronto p/ Retirada', color: 'bg-blue-50 border-blue-200', badge: 'bg-blue-100 text-blue-700', pedidoStatus: ['PRONTO', 'PAGO'], impressaoStatus: ['CONCLUIDO', 'PRONTO'] },
+  { key: 'FINALIZADOS', label: 'Entregues', color: 'bg-green-50 border-green-200', badge: 'bg-green-100 text-green-700', pedidoStatus: ['ENTREGUE', 'FINALIZADO', 'CANCELADO'], impressaoStatus: ['ENTREGUE', 'FINALIZADO', 'CANCELADO'] },
 ];
 
 // Colunas para as quais é possível mover um pedido manualmente (movimentação livre,
@@ -27,7 +27,15 @@ const COLUMNS = [
 const COLUNAS_MOVIVEIS = COLUMNS.filter(c => c.pedidoStatus.length > 0 || c.impressaoStatus.length > 0);
 
 const STATUS_AVANCAR = {
-  NOVO: 'PRODUCAO', PRODUCAO: 'SEPARACAO', SEPARACAO: 'PRONTO', PAGO: 'PRONTO', PRONTO: 'ENTREGUE',
+  NOVO: 'PRODUCAO',
+  RECEBIDO: 'PRODUCAO',
+  PRODUCAO: 'SEPARACAO',
+  AGUARDANDO_PRODUCAO: 'PRODUCAO',
+  SEPARACAO: 'PRONTO',
+  AGUARDANDO_SEPARACAO: 'SEPARACAO',
+  EM_SEPARACAO: 'SEPARACAO',
+  PAGO: 'PRONTO',
+  PRONTO: 'ENTREGUE',
 };
 
 function tempoDecorrido(date) {

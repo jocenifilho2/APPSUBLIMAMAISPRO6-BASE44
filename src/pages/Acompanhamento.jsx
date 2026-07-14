@@ -8,6 +8,7 @@ const TIMELINE_PRODUTO = [
   { key: 'NOVO', label: 'Pedido Recebido' },
   { key: 'AGUARDANDO_PAGAMENTO', label: 'Aguardando Pagamento' },
   { key: 'PAGO', label: 'Pagamento Confirmado' },
+  { key: 'PRODUCAO', label: 'Em Produção' },
   { key: 'SEPARACAO', label: 'Em Separação' },
   { key: 'PRONTO', label: 'Pronto para Retirada' },
   { key: 'ENTREGUE', label: 'Entregue' },
@@ -26,7 +27,7 @@ const TIMELINE_IMPRESSAO = [
   { key: 'ENTREGUE', label: 'Entregue' },
 ];
 
-const STATUS_ORDER_PRODUTO = ['NOVO', 'AGUARDANDO_PAGAMENTO', 'PAGO', 'SEPARACAO', 'PRONTO', 'ENTREGUE'];
+const STATUS_ORDER_PRODUTO = ['NOVO', 'AGUARDANDO_PAGAMENTO', 'PAGO', 'PRODUCAO', 'SEPARACAO', 'PRONTO', 'ENTREGUE'];
 const STATUS_ORDER_IMPRESSAO = ['RECEBIDO', 'CONFERENCIA', 'AGUARDANDO_PAGAMENTO', 'PAGO', 'ARTE_REVISADA', 'EM_IMPRESSAO', 'ACABAMENTO', 'QUALIDADE', 'PRONTO', 'ENTREGUE'];
 
 const MOTOBOYS = [

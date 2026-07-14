@@ -11,7 +11,7 @@ import Pedidos from './pages/Pedidos';
 import GestaoImpressoes from './pages/GestaoImpressoes';
 
 import AcessoAdministrativo from './pages/AcessoAdministrativo';
-import Separacao from './pages/Separacao';
+// import Separacao from './pages/Separacao';
 import Acompanhamento from './pages/Acompanhamento';
 import ErpLogisticaPage from './pages/ErpLogisticaPage';
 import Login from './pages/Login';
@@ -69,7 +69,6 @@ const AuthenticatedApp = () => {
 
         <Route path="/admin" element={<ModuloGate moduloId="administrativo"><AcessoAdministrativo /></ModuloGate>} />
         <Route path="/ecommerce" element={<ModuloGate moduloId="ecommerce"><ErpEcommerce /></ModuloGate>} />
-        <Route path="/separacao" element={<ModuloGate moduloId="separacao"><Separacao /></ModuloGate>} />
         <Route path="/logistica" element={<ModuloGate moduloId="logistica"><ErpLogisticaPage /></ModuloGate>} />
       </Route>
       <Route path="/redefinir-senha" element={<RedefinirSenha />} />

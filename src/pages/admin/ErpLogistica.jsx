@@ -9,17 +9,20 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Clock, Package, Printer, AlertTriangle, Truck, ChevronRight, Square, CheckSquare, Trash2, MoveRight } from 'lucide-react';
 import EntregasPanel from '../../components/pedidos/EntregasPanel';
+import SeparacaoDoc from '../../components/pedidos/SeparacaoDoc';
+import ImpressaoSeparacaoDoc from '../../components/impressoes/ImpressaoSeparacaoDoc';
+import ProntoModal from '../../components/pedidos/ProntoModal';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { usePodeEditar } from '@/lib/permissoes';
 import { registrarHistorico } from '@/lib/historico-pedido';
 
 const COLUMNS = [
-  { key: 'RECEBIDOS', label: 'Recebidos', color: 'bg-yellow-50 border-yellow-200', badge: 'bg-yellow-100 text-yellow-700', pedidoStatus: ['NOVO', 'RECEBIDO'], impressaoStatus: ['PENDENTE', 'RECEBIDO'] },
-  { key: 'EM_PRODUCAO', label: 'Em Produção', color: 'bg-indigo-50 border-indigo-200', badge: 'bg-indigo-100 text-indigo-700', pedidoStatus: ['PRODUCAO', 'AGUARDANDO_PRODUCAO'], impressaoStatus: ['AGUARDANDO', 'EM_IMPRESSAO', 'ARTE_REVISADA'] },
-  { key: 'EM_SEPARACAO', label: 'Em Separação', color: 'bg-cyan-50 border-cyan-200', badge: 'bg-cyan-100 text-cyan-700', pedidoStatus: ['SEPARACAO', 'AGUARDANDO_SEPARACAO', 'EM_SEPARACAO'], impressaoStatus: ['PAGO'] },
-  { key: 'PRONTO', label: 'Pronto p/ Retirada', color: 'bg-blue-50 border-blue-200', badge: 'bg-blue-100 text-blue-700', pedidoStatus: ['PRONTO', 'PAGO'], impressaoStatus: ['CONCLUIDO', 'PRONTO'] },
-  { key: 'FINALIZADOS', label: 'Entregues', color: 'bg-green-50 border-green-200', badge: 'bg-green-100 text-green-700', pedidoStatus: ['ENTREGUE', 'FINALIZADO', 'CANCELADO'], impressaoStatus: ['ENTREGUE', 'FINALIZADO', 'CANCELADO'] },
+  { key: 'RECEBIDOS', label: 'Recebidos', color: 'bg-yellow-50 border-yellow-200', badge: 'bg-yellow-100 text-yellow-700', pedidoStatus: ['NOVO'], impressaoStatus: ['PENDENTE'] },
+  { key: 'EM_PRODUCAO', label: 'Em Produção', color: 'bg-indigo-50 border-indigo-200', badge: 'bg-indigo-100 text-indigo-700', pedidoStatus: ['PRODUCAO'], impressaoStatus: ['AGUARDANDO'] },
+  { key: 'EM_SEPARACAO', label: 'Em Separação', color: 'bg-cyan-50 border-cyan-200', badge: 'bg-cyan-100 text-cyan-700', pedidoStatus: ['SEPARACAO'], impressaoStatus: ['PAGO'] },
+  { key: 'PRONTO', label: 'Pronto p/ Retirada', color: 'bg-blue-50 border-blue-200', badge: 'bg-blue-100 text-blue-700', pedidoStatus: ['PRONTO', 'PAGO'], impressaoStatus: ['CONCLUIDO'] },
+  { key: 'FINALIZADOS', label: 'Entregues', color: 'bg-green-50 border-green-200', badge: 'bg-green-100 text-green-700', pedidoStatus: ['ENTREGUE', 'CANCELADO'], impressaoStatus: ['ENTREGUE', 'CANCELADO'] },
 ];
 
 // Colunas para as quais é possível mover um pedido manualmente (movimentação livre,
@@ -27,15 +30,7 @@ const COLUMNS = [
 const COLUNAS_MOVIVEIS = COLUMNS.filter(c => c.pedidoStatus.length > 0 || c.impressaoStatus.length > 0);
 
 const STATUS_AVANCAR = {
-  NOVO: 'PRODUCAO',
-  RECEBIDO: 'PRODUCAO',
-  PRODUCAO: 'SEPARACAO',
-  AGUARDANDO_PRODUCAO: 'PRODUCAO',
-  SEPARACAO: 'PRONTO',
-  AGUARDANDO_SEPARACAO: 'SEPARACAO',
-  EM_SEPARACAO: 'SEPARACAO',
-  PAGO: 'PRONTO',
-  PRONTO: 'ENTREGUE',
+  NOVO: 'PRODUCAO', PRODUCAO: 'SEPARACAO', SEPARACAO: 'PRONTO', PAGO: 'PRONTO', PRONTO: 'ENTREGUE',
 };
 
 function tempoDecorrido(date) {
@@ -64,6 +59,9 @@ export default function ErpLogistica() {
   const [selected, setSelected] = useState(new Set());
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [bulkMoving, setBulkMoving] = useState(false);
+  const [docPedido, setDocPedido] = useState(null);
+  const [docImpressao, setDocImpressao] = useState(null);
+  const [prontoModal, setProntoModal] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: pedidos = [] } = useQuery({
@@ -150,6 +148,12 @@ export default function ErpLogistica() {
         await base44.entities.LinkAcompanhamento.update(links[0].id, { status: proximo });
       }
     } catch (e) {}
+    // Ao sair de "Em Separação" para "Pronto p/ Retirada" (pedidos de produto), mantém
+    // a mesma experiência que existia na antiga tela SEPARAÇÃO: modal de confete +
+    // atalhos para chamar motoboy/Uber/99.
+    if (item._tipo === 'PRODUTO' && statusAnterior === 'SEPARACAO' && proximo === 'PRONTO') {
+      setProntoModal({ ...item, status: proximo });
+    }
   };
 
   // Move o pedido diretamente para qualquer coluna do quadro, em qualquer direção
@@ -359,6 +363,21 @@ export default function ErpLogistica() {
                         </div>
                       )}
 
+                      {/* Ficha de separação — só faz sentido enquanto o item está "Em Separação",
+                          preserva a função que existia na antiga tela SEPARAÇÃO */}
+                      {col.key === 'EM_SEPARACAO' && (
+                        <div className="mt-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-6 text-[10px] px-2 w-full"
+                            onClick={() => item._tipo === 'PRODUTO' ? setDocPedido(item) : setDocImpressao(item)}
+                          >
+                            📋 Ficha
+                          </Button>
+                        </div>
+                      )}
+
                       {/* Actions */}
                       {podeEditarModulo && (
                         <div className="flex gap-1 mt-2">
@@ -398,6 +417,10 @@ export default function ErpLogistica() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      {docPedido && <SeparacaoDoc open={true} onOpenChange={() => setDocPedido(null)} pedido={docPedido} />}
+      {docImpressao && <ImpressaoSeparacaoDoc open={true} onOpenChange={() => setDocImpressao(null)} pedido={docImpressao} />}
+      <ProntoModal open={!!prontoModal} onClose={() => setProntoModal(null)} pedido={prontoModal} />
     </div>
   );
 }

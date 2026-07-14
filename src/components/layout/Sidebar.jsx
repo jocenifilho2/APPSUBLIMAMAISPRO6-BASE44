@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Printer, Shield, Bell, Menu, X, Package, Truck, LogOut, ShoppingBag, Eye, EyeOff, Glasses } from 'lucide-react';
+import { ShoppingCart, Printer, Shield, Bell, Menu, X, Truck, LogOut, ShoppingBag, Eye, EyeOff, Glasses } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

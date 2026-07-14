@@ -1,0 +1,49 @@
+{
+  "name": "NotaFiscal",
+  "type": "object",
+  "properties": {
+    "pedido_id": {
+      "type": "string"
+    },
+    "numero_pedido": {
+      "type": "string"
+    },
+    "cliente": {
+      "type": "string"
+    },
+    "valor_total": {
+      "type": "number"
+    },
+    "status_nfe": {
+      "type": "string",
+      "enum": [
+        "RASCUNHO",
+        "EMITIDA",
+        "CANCELADA",
+        "REJEITADA"
+      ],
+      "default": "RASCUNHO"
+    },
+    "ambiente": {
+      "type": "string",
+      "enum": [
+        "HOMOLOGACAO",
+        "PRODUCAO"
+      ],
+      "default": "HOMOLOGACAO"
+    },
+    "chave_acesso": {
+      "type": "string"
+    },
+    "numero_nfe": {
+      "type": "string"
+    },
+    "observacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "cliente",
+    "valor_total"
+  ]
+}

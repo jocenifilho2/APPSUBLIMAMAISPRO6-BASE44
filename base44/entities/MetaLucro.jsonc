@@ -1,0 +1,41 @@
+{
+  "name": "MetaLucro",
+  "type": "object",
+  "properties": {
+    "periodo": {
+      "type": "string",
+      "enum": [
+        "MENSAL",
+        "TRIMESTRAL",
+        "SEMESTRAL",
+        "ANUAL"
+      ],
+      "default": "MENSAL"
+    },
+    "valor_meta": {
+      "type": "number",
+      "description": "Valor da meta de lucro"
+    },
+    "margem_esperada": {
+      "type": "number",
+      "description": "Margem de lucro esperada (%)"
+    },
+    "data_inicio": {
+      "type": "string",
+      "format": "date"
+    },
+    "data_fim": {
+      "type": "string",
+      "format": "date"
+    },
+    "descricao": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "periodo",
+    "valor_meta",
+    "data_inicio",
+    "data_fim"
+  ]
+}

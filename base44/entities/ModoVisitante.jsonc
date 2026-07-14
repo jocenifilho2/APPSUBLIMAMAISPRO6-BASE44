@@ -1,0 +1,28 @@
+{
+  "name": "ModoVisitante",
+  "type": "object",
+  "properties": {
+    "ativo": {
+      "type": "boolean",
+      "default": false,
+      "description": "Se verdadeiro, o sistema inteiro entra em Modo Visitante: apenas Pedidos Loja/WhatsApp e Produ\u00e7\u00e3o (DTF e Sublima\u00e7\u00e3o) ficam vis\u00edveis, em modo somente leitura, para todos os usu\u00e1rios."
+    },
+    "ativado_por": {
+      "type": "string",
+      "description": "Nome de usu\u00e1rio de quem ativou o Modo Visitante"
+    },
+    "ativado_em": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "desativado_por": {
+      "type": "string",
+      "description": "Nome de usu\u00e1rio de quem desativou o Modo Visitante, ap\u00f3s confirma\u00e7\u00e3o de usu\u00e1rio e senha"
+    },
+    "desativado_em": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": []
+}

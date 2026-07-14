@@ -1,0 +1,42 @@
+{
+  "name": "MovimentoCaixa",
+  "type": "object",
+  "properties": {
+    "caixa_id": {
+      "type": "string",
+      "description": "ID do CaixaDiario"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "ENTRADA",
+        "SAIDA",
+        "SANGRIA",
+        "SUPRIMENTO"
+      ],
+      "description": "Tipo de movimenta\u00e7\u00e3o"
+    },
+    "valor": {
+      "type": "number"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "hora": {
+      "type": "string",
+      "description": "Hora da movimenta\u00e7\u00e3o (HH:MM)"
+    },
+    "conta_financeira_id": {
+      "type": "string",
+      "description": "ID da conta vinculada, se houver"
+    },
+    "usuario": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "caixa_id",
+    "tipo",
+    "valor"
+  ]
+}

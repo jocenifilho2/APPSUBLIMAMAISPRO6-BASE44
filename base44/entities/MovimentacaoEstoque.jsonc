@@ -1,0 +1,64 @@
+{
+  "name": "MovimentacaoEstoque",
+  "type": "object",
+  "properties": {
+    "produto_id": {
+      "type": "string"
+    },
+    "produto_nome": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "ENTRADA",
+        "SAIDA",
+        "AJUSTE",
+        "TRANSFERENCIA",
+        "PERDA",
+        "PRODUCAO"
+      ],
+      "description": "Tipo de movimenta\u00e7\u00e3o"
+    },
+    "quantidade": {
+      "type": "number"
+    },
+    "localizacao_origem": {
+      "type": "string",
+      "enum": [
+        "LOJA",
+        "ECOMMERCE",
+        "PRODUCAO",
+        "RESERVA",
+        "TERCEIROS"
+      ]
+    },
+    "localizacao_destino": {
+      "type": "string",
+      "enum": [
+        "LOJA",
+        "ECOMMERCE",
+        "PRODUCAO",
+        "RESERVA",
+        "TERCEIROS"
+      ]
+    },
+    "custo_unitario": {
+      "type": "number"
+    },
+    "motivo": {
+      "type": "string"
+    },
+    "pedido_id": {
+      "type": "string"
+    },
+    "usuario": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "produto_nome",
+    "tipo",
+    "quantidade"
+  ]
+}

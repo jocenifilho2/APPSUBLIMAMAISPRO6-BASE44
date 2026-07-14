@@ -1,0 +1,81 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "The role of the user in the app",
+      "enum": [
+        "admin",
+        "user"
+      ]
+    },
+    "nome_usuario": {
+      "type": "string",
+      "description": "Nome de login do usuario (sem expor e-mail)"
+    },
+    "ultimo_acesso": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp do ultimo acesso para status de presenca"
+    },
+    "acesso_pedidos": {
+      "type": "string",
+      "enum": [
+        "nenhum",
+        "leitura",
+        "edicao"
+      ],
+      "default": "nenhum"
+    },
+    "acesso_producao": {
+      "type": "string",
+      "enum": [
+        "nenhum",
+        "leitura",
+        "edicao"
+      ],
+      "default": "nenhum"
+    },
+    "acesso_separacao": {
+      "type": "string",
+      "enum": [
+        "nenhum",
+        "leitura",
+        "edicao"
+      ],
+      "default": "nenhum"
+    },
+    "acesso_logistica": {
+      "type": "string",
+      "enum": [
+        "nenhum",
+        "leitura",
+        "edicao"
+      ],
+      "default": "nenhum"
+    },
+    "acesso_administrativo": {
+      "type": "string",
+      "enum": [
+        "nenhum",
+        "leitura",
+        "edicao"
+      ],
+      "default": "nenhum"
+    },
+    "acesso_ecommerce": {
+      "type": "string",
+      "enum": [
+        "nenhum",
+        "leitura",
+        "edicao"
+      ],
+      "default": "nenhum",
+      "description": "Permissao para o modulo Gestao Ecommerce"
+    }
+  },
+  "required": [
+    "role"
+  ]
+}

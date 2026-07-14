@@ -1,0 +1,55 @@
+{
+  "name": "OcorrenciaLogistica",
+  "type": "object",
+  "properties": {
+    "pedido_id": {
+      "type": "string"
+    },
+    "tipo_pedido": {
+      "type": "string",
+      "enum": [
+        "PRODUTO",
+        "IMPRESSAO"
+      ],
+      "default": "PRODUTO"
+    },
+    "cliente": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "CLIENTE_AUSENTE",
+        "ENDERECO_INCORRETO",
+        "PRODUTO_AVARIADO",
+        "EXTRAVIO",
+        "RECUSA",
+        "TENTATIVA_ENTREGA",
+        "REENTREGA",
+        "OUTRO"
+      ],
+      "default": "OUTRO"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolvida": {
+      "type": "boolean",
+      "default": false
+    },
+    "data_resolucao": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "responsavel": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "tipo"
+  ]
+}

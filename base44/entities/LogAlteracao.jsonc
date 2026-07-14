@@ -1,0 +1,75 @@
+{
+  "name": "LogAlteracao",
+  "type": "object",
+  "properties": {
+    "usuario": {
+      "type": "string",
+      "description": "Nome do usuario que fez a alteracao"
+    },
+    "usuario_id": {
+      "type": "string"
+    },
+    "acao": {
+      "type": "string",
+      "enum": [
+        "CRIAR",
+        "EDITAR",
+        "EXCLUIR",
+        "STATUS",
+        "EMITIR",
+        "CANCELAR",
+        "PAGAR",
+        "PARCELAR",
+        "RATEAR",
+        "FECHAR_CAIXA",
+        "ABRIR_CAIXA",
+        "OUTRO"
+      ],
+      "description": "Tipo de acao realizada"
+    },
+    "entidade": {
+      "type": "string",
+      "description": "Nome da entidade alterada"
+    },
+    "entidade_id": {
+      "type": "string"
+    },
+    "detalhes": {
+      "type": "string",
+      "description": "Descricao legivel da alteracao"
+    },
+    "valor_anterior": {
+      "type": "string"
+    },
+    "valor_novo": {
+      "type": "string"
+    },
+    "categoria_anterior": {
+      "type": "string"
+    },
+    "categoria_nova": {
+      "type": "string"
+    },
+    "centro_custo_anterior": {
+      "type": "string"
+    },
+    "centro_custo_novo": {
+      "type": "string"
+    },
+    "status_anterior": {
+      "type": "string"
+    },
+    "status_novo": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "usuario",
+    "acao",
+    "entidade"
+  ]
+}

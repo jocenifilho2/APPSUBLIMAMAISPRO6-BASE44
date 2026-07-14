@@ -1,0 +1,34 @@
+{
+  "name": "FichaTecnica",
+  "type": "object",
+  "properties": {
+    "produto_final": {
+      "type": "string"
+    },
+    "insumos_texto": {
+      "type": "string"
+    },
+    "energia_estimada": {
+      "type": "number",
+      "default": 0
+    },
+    "tempo_producao_min": {
+      "type": "number",
+      "default": 0
+    },
+    "custo_estimado": {
+      "type": "number",
+      "default": 0
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "produto_final"
+  ]
+}

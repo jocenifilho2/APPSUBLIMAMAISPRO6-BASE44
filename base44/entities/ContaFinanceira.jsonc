@@ -1,0 +1,116 @@
+{
+  "name": "ContaFinanceira",
+  "type": "object",
+  "properties": {
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "RECEITA",
+        "DESPESA"
+      ],
+      "default": "RECEITA"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "valor": {
+      "type": "number"
+    },
+    "data_vencimento": {
+      "type": "string"
+    },
+    "data_pagamento": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PENDENTE",
+        "PAGO",
+        "VENCIDO",
+        "CANCELADO",
+        "PAGO_PARCIAL"
+      ],
+      "default": "PENDENTE"
+    },
+    "categoria": {
+      "type": "string"
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "referencia": {
+      "type": "string"
+    },
+    "centro_custo_id": {
+      "type": "string",
+      "description": "ID do centro de custo"
+    },
+    "centro_custo_nome": {
+      "type": "string"
+    },
+    "plano_conta_id": {
+      "type": "string",
+      "description": "ID da conta no plano de contas"
+    },
+    "plano_conta_nome": {
+      "type": "string"
+    },
+    "classificacao": {
+      "type": "string",
+      "enum": [
+        "FIXA",
+        "VARIAVEL"
+      ],
+      "default": "VARIAVEL"
+    },
+    "parcela_numero": {
+      "type": "string",
+      "description": "N\u00famero da parcela (ex: 1/3)"
+    },
+    "parcela_grupo": {
+      "type": "string",
+      "description": "ID compartilhado entre parcelas do mesmo lan\u00e7amento"
+    },
+    "conta_recorrente_id": {
+      "type": "string",
+      "description": "ID da conta recorrente que gerou este lan\u00e7amento"
+    },
+    "caixa_diario_id": {
+      "type": "string",
+      "description": "ID do caixa onde foi registrado"
+    },
+    "valor_pago": {
+      "type": "number",
+      "default": 0,
+      "description": "Total j\u00e1 pago (inclui pagamentos parciais)"
+    },
+    "cliente": {
+      "type": "string"
+    },
+    "fornecedor": {
+      "type": "string"
+    },
+    "vendedor": {
+      "type": "string"
+    },
+    "forma_pagamento": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "DINHEIRO",
+        "CARTAO",
+        "TRANSFERENCIA",
+        "BOLETO",
+        "DUPLICATA",
+        "MISTO",
+        "OUTRO"
+      ]
+    }
+  },
+  "required": [
+    "tipo",
+    "descricao",
+    "valor"
+  ]
+}

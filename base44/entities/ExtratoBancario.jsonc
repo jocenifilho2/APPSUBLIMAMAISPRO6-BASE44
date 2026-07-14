@@ -1,0 +1,58 @@
+{
+  "name": "ExtratoBancario",
+  "properties": {
+    "conta_financeira_id": {
+      "description": "ID da ContaFinanceira vinculada, quando conciliado",
+      "type": "string"
+    },
+    "data": {
+      "description": "Data da transa\u00e7\u00e3o banc\u00e1ria",
+      "format": "date",
+      "type": "string"
+    },
+    "descricao": {
+      "description": "Descri\u00e7\u00e3o/hist\u00f3rico da transa\u00e7\u00e3o, conforme extrato do banco",
+      "type": "string"
+    },
+    "hash_unico": {
+      "description": "Hash (data+valor+descri\u00e7\u00e3o) usado para evitar importa\u00e7\u00e3o duplicada",
+      "type": "string"
+    },
+    "observacoes": {
+      "description": "Notas adicionais sobre a concilia\u00e7\u00e3o",
+      "type": "string"
+    },
+    "origem_importacao": {
+      "description": "Nome do arquivo (CSV/OFX) de onde veio esse lan\u00e7amento",
+      "type": "string"
+    },
+    "status_conciliacao": {
+      "default": "PENDENTE",
+      "description": "Situa\u00e7\u00e3o da concilia\u00e7\u00e3o com o financeiro interno",
+      "enum": [
+        "PENDENTE",
+        "CONCILIADO",
+        "DIVERGENTE",
+        "IGNORADO"
+      ],
+      "type": "string"
+    },
+    "tipo": {
+      "description": "Tipo de lan\u00e7amento banc\u00e1rio",
+      "enum": [
+        "CREDITO",
+        "DEBITO"
+      ],
+      "type": "string"
+    },
+    "valor": {
+      "description": "Valor da transa\u00e7\u00e3o (positivo = cr\u00e9dito/entrada, negativo = d\u00e9bito/sa\u00edda)",
+      "type": "number"
+    }
+  },
+  "required": [
+    "data",
+    "valor"
+  ],
+  "type": "object"
+}

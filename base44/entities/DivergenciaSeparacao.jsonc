@@ -1,0 +1,53 @@
+{
+  "name": "DivergenciaSeparacao",
+  "type": "object",
+  "properties": {
+    "pedido_id": {
+      "type": "string"
+    },
+    "tipo_pedido": {
+      "type": "string",
+      "enum": [
+        "PRODUTO",
+        "IMPRESSAO"
+      ],
+      "default": "PRODUTO"
+    },
+    "produto": {
+      "type": "string",
+      "description": "Produto com diverg\u00eancia"
+    },
+    "tipo_divergencia": {
+      "type": "string",
+      "enum": [
+        "PRODUTO_INCORRETO",
+        "QUANTIDADE_INCORRETA",
+        "PRODUTO_AUSENTE",
+        "PRODUTO_DANIFICADO",
+        "OUTRO"
+      ],
+      "default": "OUTRO"
+    },
+    "quantidade": {
+      "type": "number"
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "responsavel": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolvida": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "produto",
+    "tipo_divergencia"
+  ]
+}

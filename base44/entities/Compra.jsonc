@@ -1,0 +1,39 @@
+{
+  "name": "Compra",
+  "type": "object",
+  "properties": {
+    "fornecedor_nome": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PEDIDO",
+        "CONFIRMADO",
+        "EM_TRANSITO",
+        "RECEBIDO",
+        "CANCELADO"
+      ],
+      "default": "PEDIDO"
+    },
+    "data_pedido": {
+      "type": "string"
+    },
+    "data_previsao": {
+      "type": "string"
+    },
+    "data_recebimento": {
+      "type": "string"
+    },
+    "valor_total": {
+      "type": "number",
+      "default": 0
+    },
+    "observacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "fornecedor_nome"
+  ]
+}

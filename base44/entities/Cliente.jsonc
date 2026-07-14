@@ -1,0 +1,50 @@
+{
+  "name": "Cliente",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "telefone": {
+      "type": "string"
+    },
+    "cpf": {
+      "type": "string"
+    },
+    "endereco": {
+      "type": "string"
+    },
+    "cidade": {
+      "type": "string"
+    },
+    "uf": {
+      "type": "string"
+    },
+    "cep": {
+      "type": "string"
+    },
+    "classificacao": {
+      "type": "string",
+      "enum": [
+        "VIP",
+        "RECORRENTE",
+        "NORMAL",
+        "RISCO",
+        "INATIVO"
+      ],
+      "default": "NORMAL"
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "data_nascimento": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nome"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "Entrega",
+  "type": "object",
+  "properties": {
+    "cliente": {
+      "type": "string"
+    },
+    "pedido_ref": {
+      "type": "string"
+    },
+    "endereco": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "AGUARDANDO",
+        "EM_ROTA",
+        "ENTREGUE",
+        "DEVOLVIDO",
+        "CANCELADO"
+      ],
+      "default": "AGUARDANDO"
+    },
+    "data_saida": {
+      "type": "string"
+    },
+    "data_entrega_prevista": {
+      "type": "string"
+    },
+    "data_entrega_real": {
+      "type": "string"
+    },
+    "observacao": {
+      "type": "string"
+    },
+    "entregador": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "cliente"
+  ]
+}

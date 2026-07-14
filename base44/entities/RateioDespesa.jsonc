@@ -1,0 +1,35 @@
+{
+  "name": "RateioDespesa",
+  "type": "object",
+  "properties": {
+    "descricao": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o do rateio (ex: Energia, Aluguel)"
+    },
+    "itens": {
+      "type": "array",
+      "description": "Lista de centros de custo e seus percentuais",
+      "items": {
+        "type": "object",
+        "properties": {
+          "centro_custo_id": {
+            "type": "string"
+          },
+          "centro_custo_nome": {
+            "type": "string"
+          },
+          "percentual": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "descricao"
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "name": "PedidoImpressao",
+  "type": "object",
+  "properties": {
+    "numero": {
+      "type": "string",
+      "description": "N\u00famero do pedido"
+    },
+    "cliente": {
+      "type": "string",
+      "description": "Nome do cliente"
+    },
+    "telefone": {
+      "type": "string"
+    },
+    "origem": {
+      "type": "string",
+      "enum": [
+        "LOJA",
+        "LOJA_VIRTUAL",
+        "WHATSAPP",
+        "BALCAO",
+        "INSTAGRAM"
+      ],
+      "default": "LOJA",
+      "description": "Origem do pedido"
+    },
+    "data": {
+      "type": "string",
+      "format": "date"
+    },
+    "forma_pagamento": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "CARTAO",
+        "DINHEIRO",
+        "DUPLICATA",
+        "MISTO",
+        "BANCO"
+      ]
+    },
+    "pagamento_misto_metodo_1": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "CARTAO",
+        "DINHEIRO",
+        "BANCO"
+      ],
+      "description": "Primeiro m\u00e9todo de pagamento (misto)"
+    },
+    "pagamento_misto_valor_1": {
+      "type": "number",
+      "description": "Valor da primeira parte (misto)"
+    },
+    "pagamento_misto_metodo_2": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "CARTAO",
+        "DINHEIRO",
+        "BANCO"
+      ],
+      "description": "Segundo m\u00e9todo de pagamento (misto)"
+    },
+    "pagamento_misto_valor_2": {
+      "type": "number",
+      "description": "Valor da segunda parte (misto)"
+    },
+    "banco_nome": {
+      "type": "string",
+      "description": "Nome do banco (quando forma de pagamento for Banco)"
+    },
+    "comprovante_url": {
+      "type": "string",
+      "description": "URL do comprovante de pagamento anexado"
+    },
+    "forma_retirada": {
+      "type": "string",
+      "enum": [
+        "RETIRADA EM LOJA",
+        "ENTREGA"
+      ],
+      "default": "RETIRADA EM LOJA"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "RECEBIDO",
+        "CONFERENCIA",
+        "AGUARDANDO_PAGAMENTO",
+        "PAGO",
+        "ARTE_REVISADA",
+        "EM_IMPRESSAO",
+        "ACABAMENTO",
+        "QUALIDADE",
+        "PRONTO",
+        "ENTREGUE",
+        "CANCELADO"
+      ],
+      "default": "RECEBIDO"
+    },
+    "motivo_cancelamento": {
+      "type": "string",
+      "description": "Motivo do cancelamento do pedido"
+    },
+    "link_corrida": {
+      "type": "string",
+      "description": "Link da corrida Uber/99"
+    },
+    "itens": {
+      "type": "array",
+      "description": "Itens do pedido de impress\u00e3o",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string"
+          },
+          "descricao": {
+            "type": "string"
+          },
+          "metros": {
+            "type": "number"
+          },
+          "quantidade": {
+            "type": "number"
+          },
+          "preco_unitario": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "total": {
+      "type": "number"
+    },
+    "observacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "cliente"
+  ]
+}

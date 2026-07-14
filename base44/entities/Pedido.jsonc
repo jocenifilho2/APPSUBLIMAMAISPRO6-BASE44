@@ -1,0 +1,250 @@
+{
+  "name": "Pedido",
+  "type": "object",
+  "properties": {
+    "numero_pedido": {
+      "type": "string",
+      "description": "N\u00famero \u00fanico do pedido (ex: 0426.001)"
+    },
+    "cliente": {
+      "type": "string",
+      "description": "Nome do cliente"
+    },
+    "telefone": {
+      "type": "string",
+      "description": "Telefone do cliente"
+    },
+    "data": {
+      "type": "string",
+      "format": "date",
+      "description": "Data do pedido"
+    },
+    "horario": {
+      "type": "string",
+      "description": "Hor\u00e1rio do pedido"
+    },
+    "origem": {
+      "type": "string",
+      "enum": [
+        "LOJA",
+        "LOJA_VIRTUAL",
+        "WHATSAPP",
+        "BALCAO",
+        "INSTAGRAM"
+      ],
+      "default": "LOJA",
+      "description": "Origem do pedido"
+    },
+    "vendedor": {
+      "type": "string",
+      "description": "Nome do vendedor"
+    },
+    "forma_pagamento": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "CARTAO",
+        "DINHEIRO",
+        "BOLETO",
+        "DUPLICATA",
+        "MISTO"
+      ],
+      "description": "Forma de pagamento"
+    },
+    "pagamento_misto_metodo_1": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "CARTAO",
+        "DINHEIRO"
+      ],
+      "description": "Primeiro m\u00e9todo de pagamento (misto)"
+    },
+    "pagamento_misto_valor_1": {
+      "type": "number",
+      "description": "Valor da primeira parte (misto)"
+    },
+    "pagamento_misto_metodo_2": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "CARTAO",
+        "DINHEIRO"
+      ],
+      "description": "Segundo m\u00e9todo de pagamento (misto)"
+    },
+    "pagamento_misto_valor_2": {
+      "type": "number",
+      "description": "Valor da segunda parte (misto)"
+    },
+    "forma_retirada": {
+      "type": "string",
+      "enum": [
+        "RETIRADA EM LOJA",
+        "ENTREGA"
+      ],
+      "default": "RETIRADA EM LOJA"
+    },
+    "banco": {
+      "type": "string",
+      "description": "Banco usado no pagamento (ex: transferencia/deposito), quando aplicavel"
+    },
+    "comprovante_url": {
+      "type": "string",
+      "description": "URL do comprovante de pagamento anexado"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "NOVO",
+        "RECEBIDO",
+        "AGUARDANDO_PAGAMENTO",
+        "PAGO",
+        "AGUARDANDO_SEPARACAO",
+        "SEPARACAO",
+        "EM_SEPARACAO",
+        "AGUARDANDO_PRODUCAO",
+        "PRODUCAO",
+        "AGUARDANDO_CONFERENCIA",
+        "EM_CONFERENCIA",
+        "EMBALAGEM",
+        "EXPEDICAO",
+        "ENVIADO",
+        "PRONTO",
+        "ENTREGUE",
+        "FINALIZADO",
+        "CANCELADO"
+      ],
+      "default": "NOVO"
+    },
+    "motivo_cancelamento": {
+      "type": "string",
+      "description": "Motivo do cancelamento do pedido"
+    },
+    "prioridade": {
+      "type": "string",
+      "enum": [
+        "BAIXA",
+        "NORMAL",
+        "ALTA",
+        "URGENTE",
+        "VIP"
+      ],
+      "default": "NORMAL"
+    },
+    "link_corrida": {
+      "type": "string",
+      "description": "Link da corrida Uber/99"
+    },
+    "itens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "produto_nome": {
+            "type": "string"
+          },
+          "quantidade": {
+            "type": "number"
+          },
+          "preco_unitario_cartao": {
+            "type": "number"
+          },
+          "preco_unitario_pix": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "subtotal": {
+      "type": "number"
+    },
+    "desconto": {
+      "type": "number"
+    },
+    "total": {
+      "type": "number"
+    },
+    "total_cartao": {
+      "type": "number"
+    },
+    "total_pix": {
+      "type": "number"
+    },
+    "frete": {
+      "type": "number",
+      "default": 0
+    },
+    "comissao": {
+      "type": "number",
+      "default": 0
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "observacao_cliente": {
+      "type": "string"
+    },
+    "observacao_interna": {
+      "type": "string"
+    },
+    "observacao_producao": {
+      "type": "string"
+    },
+    "observacao_logistica": {
+      "type": "string"
+    },
+    "checklist": {
+      "type": "object",
+      "properties": {
+        "pagamento": {
+          "type": "boolean",
+          "default": false
+        },
+        "arte_aprovada": {
+          "type": "boolean",
+          "default": false
+        },
+        "separacao": {
+          "type": "boolean",
+          "default": false
+        },
+        "producao": {
+          "type": "boolean",
+          "default": false
+        },
+        "conferencia": {
+          "type": "boolean",
+          "default": false
+        },
+        "embalagem": {
+          "type": "boolean",
+          "default": false
+        },
+        "etiqueta": {
+          "type": "boolean",
+          "default": false
+        },
+        "expedicao": {
+          "type": "boolean",
+          "default": false
+        },
+        "entrega": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "pedidos_unificados": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs de pedidos unificados neste"
+    }
+  },
+  "required": [
+    "cliente",
+    "forma_pagamento"
+  ]
+}

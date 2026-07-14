@@ -1,0 +1,35 @@
+{
+  "name": "Maquina",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string",
+      "description": "Nome identificador da m\u00e1quina"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "SUBLIMACAO",
+        "DTF",
+        "LASER",
+        "OUTRO"
+      ],
+      "default": "SUBLIMACAO"
+    },
+    "passos_opcao": {
+      "type": "string",
+      "description": "Op\u00e7\u00f5es de passos (ex: 3 passos, 6 passos)"
+    },
+    "ativa": {
+      "type": "boolean",
+      "default": true
+    },
+    "observacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "nome",
+    "tipo"
+  ]
+}

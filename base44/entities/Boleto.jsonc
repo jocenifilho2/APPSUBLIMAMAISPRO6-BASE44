@@ -1,0 +1,91 @@
+{
+  "name": "Boleto",
+  "properties": {
+    "cliente": {
+      "type": "string"
+    },
+    "cliente_documento": {
+      "description": "CPF ou CNPJ do cliente",
+      "type": "string"
+    },
+    "conta_financeira_id": {
+      "description": "ID da ContaFinanceira (RECEITA) vinculada",
+      "type": "string"
+    },
+    "data_emissao": {
+      "format": "date",
+      "type": "string"
+    },
+    "data_pagamento": {
+      "format": "date",
+      "type": "string"
+    },
+    "data_vencimento": {
+      "format": "date",
+      "type": "string"
+    },
+    "desconto": {
+      "default": 0,
+      "description": "Desconto para pagamento antecipado",
+      "type": "number"
+    },
+    "forma_recebimento": {
+      "description": "Como o cliente efetivamente pagou (cobran\u00e7a interna, n\u00e3o boleto registrado em banco)",
+      "enum": [
+        "PIX",
+        "TRANSFERENCIA",
+        "DINHEIRO",
+        "CARTAO",
+        "OUTRO"
+      ],
+      "type": "string"
+    },
+    "instrucoes": {
+      "description": "Instru\u00e7\u00f5es de pagamento exibidas ao cliente (ex: chave PIX, dados banc\u00e1rios)",
+      "type": "string"
+    },
+    "juros_dia_percentual": {
+      "default": 0.033,
+      "description": "% de juros de mora ao dia sobre o valor original",
+      "type": "number"
+    },
+    "multa_percentual": {
+      "default": 2,
+      "description": "% de multa aplicada ap\u00f3s vencimento",
+      "type": "number"
+    },
+    "nosso_numero": {
+      "description": "Numera\u00e7\u00e3o interna sequencial do boleto (controle interno, n\u00e3o registrado em banco)",
+      "type": "string"
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "pedido_id": {
+      "description": "ID do Pedido/PedidoImpressao vinculado, se houver",
+      "type": "string"
+    },
+    "status": {
+      "default": "EMITIDO",
+      "enum": [
+        "EMITIDO",
+        "PAGO",
+        "VENCIDO",
+        "CANCELADO"
+      ],
+      "type": "string"
+    },
+    "valor_original": {
+      "type": "number"
+    },
+    "valor_pago": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "cliente",
+    "valor_original",
+    "data_vencimento"
+  ],
+  "type": "object"
+}

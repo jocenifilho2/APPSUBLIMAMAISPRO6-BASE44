@@ -1,0 +1,46 @@
+{
+  "name": "HistoricoPedido",
+  "type": "object",
+  "properties": {
+    "pedido_id": {
+      "type": "string",
+      "description": "ID do pedido"
+    },
+    "tipo_pedido": {
+      "type": "string",
+      "enum": [
+        "PRODUTO",
+        "IMPRESSAO"
+      ],
+      "default": "PRODUTO"
+    },
+    "status_anterior": {
+      "type": "string"
+    },
+    "status_novo": {
+      "type": "string"
+    },
+    "usuario": {
+      "type": "string",
+      "description": "Nome do usu\u00e1rio respons\u00e1vel"
+    },
+    "usuario_id": {
+      "type": "string"
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "tempo_etapa_minutos": {
+      "type": "number",
+      "description": "Tempo gasto na etapa anterior (minutos)"
+    },
+    "data_hora": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "pedido_id",
+    "status_novo"
+  ]
+}

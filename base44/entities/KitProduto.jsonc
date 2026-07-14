@@ -1,0 +1,26 @@
+{
+  "name": "KitProduto",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string"
+    },
+    "itens_texto": {
+      "type": "string"
+    },
+    "preco_kit": {
+      "type": "number",
+      "default": 0
+    },
+    "descricao": {
+      "type": "string"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "nome"
+  ]
+}

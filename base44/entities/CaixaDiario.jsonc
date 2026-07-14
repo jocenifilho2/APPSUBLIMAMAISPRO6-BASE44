@@ -1,0 +1,60 @@
+{
+  "name": "CaixaDiario",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "string",
+      "format": "date",
+      "description": "Data do caixa"
+    },
+    "valor_inicial": {
+      "type": "number",
+      "default": 0,
+      "description": "Valor de abertura"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ABERTO",
+        "FECHADO"
+      ],
+      "default": "ABERTO"
+    },
+    "valor_fechamento": {
+      "type": "number",
+      "default": 0,
+      "description": "Valor informado no fechamento"
+    },
+    "valor_calculado": {
+      "type": "number",
+      "default": 0,
+      "description": "Valor calculado pelo sistema"
+    },
+    "diferenca": {
+      "type": "number",
+      "default": 0,
+      "description": "Diferen\u00e7a entre fechamento e calculado"
+    },
+    "usuario_abertura": {
+      "type": "string"
+    },
+    "usuario_fechamento": {
+      "type": "string"
+    },
+    "data_abertura": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "data_fechamento": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observacoes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "data",
+    "valor_inicial"
+  ]
+}

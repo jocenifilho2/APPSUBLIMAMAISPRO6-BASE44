@@ -1,0 +1,53 @@
+{
+  "name": "LinkAcompanhamento",
+  "type": "object",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "Token \u00fanico do link"
+    },
+    "pedido_id": {
+      "type": "string"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "PRODUTO",
+        "IMPRESSAO"
+      ],
+      "default": "PRODUTO"
+    },
+    "numero": {
+      "type": "string"
+    },
+    "cliente": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "itens_texto": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string"
+    },
+    "comprovante_url": {
+      "type": "string",
+      "description": "URL do comprovante enviado pelo cliente"
+    },
+    "retirada_loja": {
+      "type": "boolean",
+      "default": false,
+      "description": "Cliente confirmou retirada em loja"
+    },
+    "motoboy_nome": {
+      "type": "string",
+      "description": "Nome do motoboy parceiro escolhido pelo cliente"
+    }
+  },
+  "required": [
+    "token",
+    "pedido_id"
+  ]
+}

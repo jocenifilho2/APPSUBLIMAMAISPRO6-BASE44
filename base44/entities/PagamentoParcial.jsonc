@@ -1,0 +1,41 @@
+{
+  "name": "PagamentoParcial",
+  "type": "object",
+  "properties": {
+    "conta_financeira_id": {
+      "type": "string",
+      "description": "ID da ContaFinanceira vinculada"
+    },
+    "valor": {
+      "type": "number",
+      "description": "Valor do pagamento parcial"
+    },
+    "data_pagamento": {
+      "type": "string",
+      "format": "date"
+    },
+    "forma_pagamento": {
+      "type": "string",
+      "enum": [
+        "PIX",
+        "DINHEIRO",
+        "CARTAO",
+        "TRANSFERENCIA",
+        "BOLETO",
+        "OUTRO"
+      ],
+      "default": "PIX"
+    },
+    "observacoes": {
+      "type": "string"
+    },
+    "usuario": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "conta_financeira_id",
+    "valor",
+    "data_pagamento"
+  ]
+}

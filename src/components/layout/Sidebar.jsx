@@ -16,7 +16,7 @@ import { podeVer, statusPresenca, presencaCor, ehContaVisitante, EMAIL_VISITANTE
 const navItems = [
   { label: 'Pedidos Loja / WhatsApp', path: '/', icon: ShoppingCart, moduloId: 'pedidos' },
   { label: 'Produção (DTF e Sublimação)', path: '/impressoes', icon: Printer, moduloId: 'producao' },
-  { label: 'LOGÍSTICA TESTE', path: '/logistica', icon: Truck, moduloId: 'logistica' },
+  { label: 'Logística', path: '/logistica', icon: Truck, moduloId: 'logistica' },
   { label: 'Administrativo / Executivo', path: '/admin', icon: Shield, moduloId: 'administrativo' },
   { label: 'Gestão Ecommerce', path: '/ecommerce', icon: ShoppingBag, moduloId: 'ecommerce' },
 ];

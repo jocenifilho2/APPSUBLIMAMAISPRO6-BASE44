@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
+import { entities } from '@/api/entities';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -48,21 +48,21 @@ export default function GestaoImpressoes() {
 
   const { data: pedidos = [], isLoading } = useQuery({
     queryKey: ['pedidos_impressao'],
-    queryFn: () => base44.entities.PedidoImpressao.list('-created_date', 9999),
+    queryFn: () => entities.PedidoImpressao.list('-created_date', 9999),
   });
 
   const createMutation = useMutation({
-    mutationFn: (data) => base44.entities.PedidoImpressao.create(data),
+    mutationFn: (data) => entities.PedidoImpressao.create(data),
     onSuccess: (created) => { queryClient.invalidateQueries({ queryKey: ['pedidos_impressao'] }); setFormOpen(false); registrarLog({ acao: 'CRIAR', entidade: 'PedidoImpressao', entidade_id: created?.id, detalhes: `Pedido ${created?.numero || ''} — ${created?.cliente || ''}` }); },
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.PedidoImpressao.update(id, data),
+    mutationFn: ({ id, data }) => entities.PedidoImpressao.update(id, data),
     onSuccess: (_d, { id, data: d }) => { queryClient.invalidateQueries({ queryKey: ['pedidos_impressao'] }); setFormOpen(false); setEditing(null); registrarLog({ acao: 'EDITAR', entidade: 'PedidoImpressao', entidade_id: id, detalhes: `Pedido ${d?.numero || ''} — ${d?.cliente || ''}` }); },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => base44.entities.PedidoImpressao.delete(id),
+    mutationFn: (id) => entities.PedidoImpressao.delete(id),
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['pedidos_impressao'] }); if (deleteTarget) registrarLog({ acao: 'EXCLUIR', entidade: 'PedidoImpressao', entidade_id: deleteTarget.id, detalhes: `Pedido ${deleteTarget.numero || ''} — ${deleteTarget.cliente || ''}` }); setDeleteTarget(null); },
   });
 
@@ -73,11 +73,11 @@ export default function GestaoImpressoes() {
       const statusSalvo = status === 'ENTREGUE' ? 'PAGO' : status;
       const updateData = { status: statusSalvo };
       if (motivo_cancelamento) updateData.motivo_cancelamento = motivo_cancelamento;
-      await base44.entities.PedidoImpressao.update(id, updateData);
+      await entities.PedidoImpressao.update(id, updateData);
       registrarHistorico({ pedido_id: id, tipo_pedido: 'IMPRESSAO', status_anterior: statusAnterior, status_novo: statusSalvo });
-      const links = await base44.entities.LinkAcompanhamento.filter({ pedido_id: id });
+      const links = await entities.LinkAcompanhamento.filter({ pedido_id: id });
       if (links.length > 0) {
-        await base44.entities.LinkAcompanhamento.update(links[0].id, { status: statusSalvo });
+        await entities.LinkAcompanhamento.update(links[0].id, { status: statusSalvo });
       }
     },
     onSuccess: (_data, variables) => {
@@ -169,13 +169,13 @@ export default function GestaoImpressoes() {
     const token = Math.random().toString(36).substring(2) + Date.now().toString(36);
     const itensTexto = (p.itens || []).map(i => `• ${i.tipo}${i.metros ? ` ${i.metros}m` : `×${i.quantidade || 1}`}${i.descricao ? ` (${i.descricao})` : ''}`).join('\n');
     // Reusar link existente se já houver
-    const existing = await base44.entities.LinkAcompanhamento.filter({ pedido_id: p.id });
+    const existing = await entities.LinkAcompanhamento.filter({ pedido_id: p.id });
     let url;
     if (existing.length > 0) {
-      await base44.entities.LinkAcompanhamento.update(existing[0].id, { status: p.status, itens_texto: itensTexto });
+      await entities.LinkAcompanhamento.update(existing[0].id, { status: p.status, itens_texto: itensTexto });
       url = `${window.location.origin}/acompanhamento/${existing[0].token}`;
     } else {
-      await base44.entities.LinkAcompanhamento.create({
+      await entities.LinkAcompanhamento.create({
         token,
         pedido_id: p.id,
         tipo: 'IMPRESSAO',
@@ -199,13 +199,13 @@ export default function GestaoImpressoes() {
     const itensTexto = (p.itens || []).map(i => `• ${i.tipo}${i.metros ? ` ${i.metros}m` : `×${i.quantidade || 1}`}${i.descricao ? ` (${i.descricao})` : ''}`).join('\n');
     let token;
     try {
-      const existing = await base44.entities.LinkAcompanhamento.filter({ pedido_id: p.id });
+      const existing = await entities.LinkAcompanhamento.filter({ pedido_id: p.id });
       if (existing.length > 0) {
-        await base44.entities.LinkAcompanhamento.update(existing[0].id, { status: p.status, itens_texto: itensTexto });
+        await entities.LinkAcompanhamento.update(existing[0].id, { status: p.status, itens_texto: itensTexto });
         token = existing[0].token;
       } else {
         token = Math.random().toString(36).substring(2) + Date.now().toString(36);
-        await base44.entities.LinkAcompanhamento.create({
+        await entities.LinkAcompanhamento.create({
           token,
           pedido_id: p.id,
           tipo: 'IMPRESSAO',
@@ -238,7 +238,7 @@ export default function GestaoImpressoes() {
       return obj;
     });
     for (const row of rows) {
-      await base44.entities.PedidoImpressao.create({
+      await entities.PedidoImpressao.create({
         numero: row.numero || row['Nº'] || '',
         cliente: (row.cliente || row['Cliente'] || '').toUpperCase(),
         telefone: row.telefone || '',

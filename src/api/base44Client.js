@@ -1,16 +1,15 @@
 import { createClient } from '@base44/sdk';
 import { appParams } from '@/lib/app-params';
+import { getBase44ServerUrl } from '@/lib/base44-server-url';
 
 const { appId, token, functionsVersion, appBaseUrl } = appParams;
-
-const isHostedOnBase44 = typeof window !== 'undefined' && window.location.hostname.endsWith('base44.app');
 
 //Create a client with authentication required
 export const base44 = createClient({
   appId,
   token,
   functionsVersion,
-  serverUrl: isHostedOnBase44 ? '' : 'https://base44.app',
+  serverUrl: getBase44ServerUrl(),
   requiresAuth: false,
   appBaseUrl
 });

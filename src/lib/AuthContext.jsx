@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { appParams } from '@/lib/app-params';
 import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
+import { getBase44ServerUrl } from '@/lib/base44-server-url';
 import { setCurrentUserForLog } from '@/lib/audit-log';
 import { setCurrentUserForHistorico } from '@/lib/historico-pedido';
 
@@ -28,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       // First, check app public settings (with token if available)
       // This will tell us if auth is required, user not registered, etc.
       const appClient = createAxiosClient({
-        baseURL: `/api/apps/public`,
+        baseURL: `${getBase44ServerUrl()}/api/apps/public`,
         headers: {
           'X-App-Id': appParams.appId
         },

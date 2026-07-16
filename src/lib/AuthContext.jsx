@@ -1,5 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { base44 } from '@/api/base44Client';
+import { appParams } from '@/lib/app-params';
+import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
 import { setCurrentUserForLog } from '@/lib/audit-log';
 import { setCurrentUserForHistorico } from '@/lib/historico-pedido';
 
@@ -9,103 +11,146 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoadingAuth, setIsLoadingAuth] = useState(true);
-  // Mantidos por compatibilidade com componentes que ainda checam esses campos.
-  // No Base44 eles vinham de configurações públicas do app; no Supabase não existem,
-  // então simplificamos: nunca ficam "loading" e nunca têm erro de app.
-  const [isLoadingPublicSettings] = useState(false);
+  const [isLoadingPublicSettings, setIsLoadingPublicSettings] = useState(true);
   const [authError, setAuthError] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
-  const [appPublicSettings] = useState(null);
+  const [appPublicSettings, setAppPublicSettings] = useState(null); // Contains only { id, public_settings }
 
-  // Busca o perfil completo (role, permissões acesso_*) da tabela `usuarios`,
-  // que é criada automaticamente pelo trigger quando alguém se cadastra.
-  const fetchUserProfile = async (authUser) => {
-    if (!authUser) return null;
+  useEffect(() => {
+    checkAppState();
+  }, []);
 
-    const { data: profile, error } = await supabase
-      .from('usuarios')
-      .select('*')
-      .eq('id', authUser.id)
-      .single();
+  const checkAppState = async () => {
+    try {
+      setIsLoadingPublicSettings(true);
+      setAuthError(null);
+      
+      // First, check app public settings (with token if available)
+      // This will tell us if auth is required, user not registered, etc.
+      // URL absoluta (não relativa) para o backend do Base44 — necessário porque este app
+      // roda fora do domínio base44.app (ex: Vercel). Uma URL relativa aqui faz a chamada
+      // cair no próprio domínio do frontend, que devolve o index.html em vez da resposta
+      // real da API, quebrando o carregamento de todas as páginas.
+      const apiOrigin = (typeof window !== 'undefined' && window.location.hostname.endsWith('base44.app'))
+        ? ''
+        : 'https://base44.app';
 
-    if (error) {
-      console.error('Erro ao buscar perfil do usuário:', error);
-      // Mesmo sem perfil na tabela `usuarios`, devolve os dados básicos do auth
-      // pra não travar o app — mas sem nenhuma permissão liberada.
-      return { id: authUser.id, email: authUser.email };
+      const appClient = createAxiosClient({
+        baseURL: `${apiOrigin}/api/apps/public`,
+        headers: {
+          'X-App-Id': appParams.appId
+        },
+        token: appParams.token, // Include token if available
+        interceptResponses: true
+      });
+      
+      try {
+        const publicSettings = await appClient.get(`/prod/public-settings/by-id/${appParams.appId}`);
+        setAppPublicSettings(publicSettings);
+        
+        // If we got the app public settings successfully, check if user is authenticated
+        if (appParams.token) {
+          await checkUserAuth();
+        } else {
+          setIsLoadingAuth(false);
+          setIsAuthenticated(false);
+          setAuthChecked(true);
+        }
+        setIsLoadingPublicSettings(false);
+      } catch (appError) {
+        console.error('App state check failed:', appError);
+        
+        // Handle app-level errors
+        if (appError.status === 403 && appError.data?.extra_data?.reason) {
+          const reason = appError.data.extra_data.reason;
+          if (reason === 'auth_required') {
+            setAuthError({
+              type: 'auth_required',
+              message: 'Authentication required'
+            });
+          } else if (reason === 'user_not_registered') {
+            setAuthError({
+              type: 'user_not_registered',
+              message: 'User not registered for this app'
+            });
+          } else {
+            setAuthError({
+              type: reason,
+              message: appError.message
+            });
+          }
+        } else {
+          setAuthError({
+            type: 'unknown',
+            message: appError.message || 'Failed to load app'
+          });
+        }
+        setIsLoadingPublicSettings(false);
+        setIsLoadingAuth(false);
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      setAuthError({
+        type: 'unknown',
+        message: error.message || 'An unexpected error occurred'
+      });
+      setIsLoadingPublicSettings(false);
+      setIsLoadingAuth(false);
     }
-
-    return { id: authUser.id, email: authUser.email, ...profile };
   };
 
   const checkUserAuth = async () => {
-    setIsLoadingAuth(true);
-    setAuthError(null);
     try {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      if (error) throw error;
-
-      if (session?.user) {
-        const fullUser = await fetchUserProfile(session.user);
-        setUser(fullUser);
-        setCurrentUserForLog(fullUser);
-        setCurrentUserForHistorico(fullUser);
-        setIsAuthenticated(true);
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Falha ao checar autenticação:', error);
-      setUser(null);
-      setIsAuthenticated(false);
-      setAuthError({ type: 'unknown', message: error.message || 'Erro ao verificar autenticação' });
-    } finally {
+      // Now check if the user is authenticated
+      setIsLoadingAuth(true);
+      const currentUser = await base44.auth.me();
+      setUser(currentUser);
+      setCurrentUserForLog(currentUser);
+      setCurrentUserForHistorico(currentUser);
+      setIsAuthenticated(true);
       setIsLoadingAuth(false);
       setAuthChecked(true);
+    } catch (error) {
+      console.error('User auth check failed:', error);
+      setIsLoadingAuth(false);
+      setIsAuthenticated(false);
+      setAuthChecked(true);
+      
+      // If user auth fails, it might be an expired token
+      if (error.status === 401 || error.status === 403) {
+        setAuthError({
+          type: 'auth_required',
+          message: 'Authentication required'
+        });
+      }
     }
   };
 
-  // Mantido só por compatibilidade de nome com o código antigo (App.jsx, etc.
-  // podem chamar checkAppState() no lugar de checkUserAuth()).
-  const checkAppState = () => checkUserAuth();
-
-  useEffect(() => {
-    checkUserAuth();
-
-    // Escuta mudanças de sessão em tempo real (login, logout, token renovado
-    // em outra aba, etc.) e mantém o estado do app sincronizado.
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      checkUserAuth();
-    });
-
-    return () => {
-      listener?.subscription?.unsubscribe();
-    };
-  }, []);
-
-  const logout = async () => {
-    await supabase.auth.signOut();
+  const logout = (shouldRedirect = true) => {
     setUser(null);
     setIsAuthenticated(false);
-    window.location.href = '/login';
+    
+    if (shouldRedirect) {
+      // Use the SDK's logout method which handles token cleanup and redirect
+      base44.auth.logout(window.location.href);
+    } else {
+      // Just remove the token without redirect
+      base44.auth.logout();
+    }
   };
 
   const navigateToLogin = () => {
-    window.location.href = '/login';
+    base44.auth.redirectToLogin(window.location.href);
   };
 
-  // Heartbeat: atualiza ultimo_acesso periodicamente para status de presença
+  // Heartbeat: atualiza ultimo_acesso periodicamente para status de presenca
   useEffect(() => {
     if (!user?.id) return;
+    setCurrentUserForLog(user);
+    setCurrentUserForHistorico(user);
 
     const atualizarPresenca = () =>
-      supabase
-        .from('usuarios')
-        .update({ ultimo_acesso: new Date().toISOString() })
-        .eq('id', user.id)
-        .then(() => {})
-        .catch(() => {});
+      base44.auth.updateMe({ ultimo_acesso: new Date().toISOString() }).catch(() => {});
 
     atualizarPresenca();
     const interval = setInterval(atualizarPresenca, 90000);
@@ -119,9 +164,9 @@ export const AuthProvider = ({ children }) => {
   }, [user?.id]);
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      isAuthenticated,
+    <AuthContext.Provider value={{ 
+      user, 
+      isAuthenticated, 
       isLoadingAuth,
       isLoadingPublicSettings,
       authError,

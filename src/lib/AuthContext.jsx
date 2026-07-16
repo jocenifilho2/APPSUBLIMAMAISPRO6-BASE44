@@ -27,16 +27,8 @@ export const AuthProvider = ({ children }) => {
       
       // First, check app public settings (with token if available)
       // This will tell us if auth is required, user not registered, etc.
-      // URL absoluta (não relativa) para o backend do Base44 — necessário porque este app
-      // roda fora do domínio base44.app (ex: Vercel). Uma URL relativa aqui faz a chamada
-      // cair no próprio domínio do frontend, que devolve o index.html em vez da resposta
-      // real da API, quebrando o carregamento de todas as páginas.
-      const apiOrigin = (typeof window !== 'undefined' && window.location.hostname.endsWith('base44.app'))
-        ? ''
-        : 'https://base44.app';
-
       const appClient = createAxiosClient({
-        baseURL: `${apiOrigin}/api/apps/public`,
+        baseURL: `/api/apps/public`,
         headers: {
           'X-App-Id': appParams.appId
         },

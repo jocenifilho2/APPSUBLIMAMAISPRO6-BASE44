@@ -32,8 +32,8 @@ export default function SeparacaoDoc({ open, onOpenChange, pedido, autoPrint }) 
   body { font-family: Arial, Helvetica, sans-serif; background: #fff; color: #000; }
   .page { width: 148mm; height: 210mm; position: relative; padding: 5mm 5mm 46mm 5mm; overflow: hidden; }
   .conteudo { transform-origin: top left; }
-  .logo-wrap { text-align: center; margin-bottom: 6px; }
-  .logo-wrap img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
+  .logo-wrap { text-align: center; margin-bottom: 3px; }
+  .logo-wrap img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
   hr { border: none; border-top: 1.5px solid #bbb; margin: 4px 0; }
   .titulo { text-align: center; font-size: 15px; font-weight: 900; margin-bottom: 4px; letter-spacing: 1px; }
   .data { font-size: 11px; font-weight: bold; margin-bottom: 4px; }
@@ -164,7 +164,7 @@ export default function SeparacaoDoc({ open, onOpenChange, pedido, autoPrint }) 
 
         <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '13px', background: '#fff', color: '#000' }}>
           <div style={{ textAlign: 'center', marginBottom: '6px' }}>
-            <img src={LOGO_URL} alt="Logo" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover' }} />
+            <img src={LOGO_URL} alt="Logo" style={{ width: '50px', height: '50px', borderRadius: '50%', objectFit: 'cover' }} />
           </div>
           <hr style={{ border: 'none', borderTop: '1.5px solid #bbb', margin: '4px 0' }} />
           <div style={{ textAlign: 'center', fontSize: '15px', fontWeight: '900', marginBottom: '4px' }}>FICHA DE SEPARAÇÃO</div>

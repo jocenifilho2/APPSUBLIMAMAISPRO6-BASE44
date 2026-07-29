@@ -35,8 +35,8 @@ export default function ImpressaoSeparacaoDoc({ pedido, open, onOpenChange, auto
   .page { width: 148mm; height: 210mm; overflow: hidden; padding: 5mm; display: flex; flex-direction: column; position: relative; }
   .pago-stamp { position: absolute; top: 60mm; right: 10mm; border: 4px solid #16a34a; color: #16a34a; font-size: 26px; font-weight: 900; padding: 4px 10px; border-radius: 6px; transform: rotate(-20deg); opacity: 0.35; pointer-events: none; letter-spacing: 2px; }
   .ci { transform-origin: top left; width: 138mm; }
-  .logo-wrap { text-align: center; margin-bottom: 3px; }
-  .logo-wrap img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+  .logo-wrap { text-align: center; margin-bottom: 6px; }
+  .logo-wrap img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
   hr { border: none; border-top: 1.5px solid #bbb; margin: 3px 0; }
   .titulo { text-align: center; font-size: 14px; font-weight: 900; margin-bottom: 3px; letter-spacing: 1px; }
   .data { font-size: 10px; font-weight: bold; margin-bottom: 3px; }
@@ -127,7 +127,7 @@ export default function ImpressaoSeparacaoDoc({ pedido, open, onOpenChange, auto
               <div className="absolute top-16 right-4 border-4 border-green-600 text-green-600 text-xl font-black px-2 py-1 rounded opacity-30 rotate-[-20deg] pointer-events-none">PAGO</div>
             )}
             <div className="flex justify-center mb-2">
-              <img src={LOGO_URL} alt="Logo" style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover' }} />
+              <img src={LOGO_URL} alt="Logo" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover' }} />
             </div>
             <div className="text-center font-bold text-base">FICHA DE SEPARAÇÃO</div>
             <div><strong>Data:</strong> {dataFormatada}</div>

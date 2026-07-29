@@ -51,8 +51,8 @@ export default function PedidoDoc({ open, onOpenChange, pedido }) {
   body { font-family: Arial, Helvetica, sans-serif; background: #fff; color: #000; }
   .page { width: 148mm; height: 210mm; overflow: hidden; padding: 5mm; position: relative; }
   .ci { transform-origin: top left; width: 138mm; }
-  .logo-wrap { text-align: center; margin-bottom: 4px; }
-  .logo-wrap img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+  .logo-wrap { text-align: center; margin-bottom: 6px; }
+  .logo-wrap img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; }
   hr { border: none; border-top: 1.5px solid #ccc; margin: 4px 0; }
   .titulo { text-align: center; font-size: 15px; font-weight: 900; margin-bottom: 4px; letter-spacing: 1px; }
   .num-box { background: #FFD700; border-radius: 8px; padding: 5px 14px; font-size: 18px; font-weight: 900; display: inline-block; letter-spacing: 2px; }
@@ -134,7 +134,7 @@ export default function PedidoDoc({ open, onOpenChange, pedido }) {
 
         <div style={{ fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '12px', background: '#fff', color: '#000' }}>
           <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-            <img src={LOGO_URL} alt="Logo" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+            <img src={LOGO_URL} alt="Logo" style={{ width: '80px', height: '80px', borderRadius: '50%', objectFit: 'cover' }} />
           </div>
           <hr style={{ border: 'none', borderTop: '1.5px solid #ccc', margin: '6px 0' }} />
           <div style={{ textAlign: 'center', fontSize: '16px', fontWeight: '900', marginBottom: '6px' }}>PEDIDO</div>
